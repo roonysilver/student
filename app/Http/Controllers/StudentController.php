@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Student;
+use App\Models\ClassName;
+use App\User;
 
 class StudentController extends Controller
 {
@@ -13,7 +16,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $student = Student::all();
+        return view('student.view', array("student" => $student));
     }
 
     /**
@@ -22,8 +26,9 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    {   
+        $className = ClassName::all();
+        return view('student.create')->with(['className' => $className]);
     }
 
     /**
@@ -34,7 +39,21 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'phone' => 'required|min:10|starts_with:0'
+        ]);
+        $student = new Student;
+        $student->firstName = $request->firstName;
+        $student->lastName = $request->lastName;
+        $student->address = $request->address;
+        $student->phone = $request->phone;
+        $student->dob = $request->dob;
+        $student->class_names_id = $request->className;
+
+        $student->save();
+        return redirect("/student")->with('success', 'New Student has been added!');
     }
 
     /**
@@ -45,7 +64,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = Student::find($id);
+        return view('student.show', array('student' => $student));
     }
 
     /**
@@ -56,7 +76,9 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = Student::find($id);
+        $className = ClassName::all();
+        return view('student.edit' , array('student' => $student))->with(['className' => $className]);
     }
 
     /**
@@ -68,7 +90,21 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'phone' => 'required|min:10|starts_with:0'
+        ]);
+        $student = Student::find($id);
+        $student->firstName = $request->firstName;
+        $student->lastName = $request->lastName;
+        $student->address = $request->address;
+        $student->phone = $request->phone;
+        $student->dob = $request->dob;
+        $student->class_names_id = $request->className;
+
+        $student->save();
+        return redirect("/student")->with('success', 'New Student has been updated!');
     }
 
     /**
@@ -79,6 +115,8 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = Student::find($id);
+        $student->delete();
+        return redirect("/student")->with('success', 'New Student has been deleted!');
     }
 }

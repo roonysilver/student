@@ -23,4 +23,8 @@ Route::middleware('auth')->group(function(){
 });
 
 
+Route::middleware('auth')->group(function(){
+Route::resource('student', 'StudentController');
+});
+
 //route to login form

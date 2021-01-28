@@ -21,7 +21,7 @@ class UserController extends Controller
 
         $credenticals = $request->only('username', 'password');
         if(Auth::attempt($credenticals)) {
-            return redirect('admin');
+            return redirect('/student');
         } else {
             return redirect('/login')->with('notice', 'sai tên đăng nhập hoặc mất khẩu');
         }
@@ -32,7 +32,7 @@ class UserController extends Controller
 
       if(Auth::check()){
         $_SESSION['admin'] = Auth::user()->name;
-        return view('admin');
+        return view('student.view');
       }  
       return redirect("/login")->with('notice', 'Opps! You do not have access');
     }
