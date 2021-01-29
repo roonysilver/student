@@ -13,7 +13,11 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        \Illuminate\Auth\AuthenticationException::class,
+    \Illuminate\Auth\Access\AuthorizationException::class,
+    \Symfony\Component\HttpKernel\Exception\HttpException::class,
+    \Illuminate\Database\Eloquent\ModelNotFoundException::class,
+    \Illuminate\Validation\ValidationException::class,
     ];
 
     /**
@@ -36,6 +40,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        if ($exception instanceof CustomException) {
+            //
+        }
         parent::report($exception);
     }
 
@@ -50,6 +57,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof CustomException) {
+            if ($request->ajax()) {
+                // Nếu request ở dạng ajax trả về lỗi 404 với thông báo dạng Json
+                return response()->json(['error' => 'Không tìm thấy user'], 404);
+            } else {
+                // Request thông thường trả về view 404
+                return response()->view('errors.404', [], 404);
+            }
+        }
         return parent::render($request, $exception);
     }
 }

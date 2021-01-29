@@ -64,8 +64,12 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $student = Student::find($id);
-        return view('student.show', array('student' => $student));
+        try {
+            $student = Student::findOrFail($id);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError('User not found by ID ' . $request->input('id'))->withInput();
+        }       
+            return view('student.show', array('student' => $student));   
     }
 
     /**
@@ -75,10 +79,10 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        $student = Student::find($id);
-        $className = ClassName::all();
-        return view('student.edit' , array('student' => $student))->with(['className' => $className]);
+    {      
+            $student = Student::find($id);
+            $className = ClassName::all();
+            return view('student.edit' , array('student' => $student))->with(['className' => $className]);  
     }
 
     /**

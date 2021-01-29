@@ -51,7 +51,7 @@
             </select>
         </div>
           <button type="submit" class="btn btn-primary">Submit</button>
-          <a href="/" class="btn btn-danger">Back</a>
+          <a href="/student" class="btn btn-danger">Back</a>
       </form>
   </div>
 </div>
