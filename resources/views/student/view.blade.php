@@ -14,7 +14,7 @@
                 </div>
               @endif
             </div>
-            <a href="/create" class="btn btn-primary mb-2">Add New</a> 
+            <a href="/student/create" class="btn btn-primary mb-2">Add New</a> 
           <table class="table table-striped" id="data">
             <thead>
                 <tr>

@@ -42,7 +42,8 @@ class StudentController extends Controller
         $request->validate([
             'firstName' => 'required',
             'lastName' => 'required',
-            'phone' => 'required|min:10|starts_with:0'
+            'phone' => 'required|min:10|starts_with:0',
+            'class_names_id' => 'required'
         ]);
         $student = new Student;
         $student->firstName = $request->firstName;
