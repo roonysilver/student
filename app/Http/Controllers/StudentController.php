@@ -125,8 +125,8 @@ class StudentController extends Controller
         $student->phone = $request->phone;
         $student->dob = $request->dob;
         $student->class_names_id = $request->class_names_id;
-            if($student->image == null){  
-                $student->save();
+            if($request->image == null){  
+                $student->update();
                 return redirect("/student")->with('success', 'New Student has been updated!');
             } else {
                 $request->validate([
@@ -135,12 +135,9 @@ class StudentController extends Controller
                 $imageName = time().'.'.$request->image->extension();  
                 $request->image->move(public_path('images'), $imageName);
                 $student->image = '\images\\'.$imageName;
-                $student->save();
+                $student->update();
                 return redirect("/student")->with('success', 'New Student has been updated!'); 
-            }
-            
-
-        
+            }                  
     }
 
     /**
