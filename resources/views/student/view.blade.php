@@ -26,10 +26,13 @@
                   <td colspan = 2>Actions</td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody>              
+              <?php $num = 1 ?>
               @foreach($student as $item)
+
                 <tr>
-                    <td>{{$item->id}}</td>
+                    <td>{{ $num++ }}</td>
+                    <td style="display: none">{{$item->id}}</td>
                     <td>{{$item->firstName}} {{$item->lastName}}</td>
                     <td>{{$item->address}}</td>
                     <td>{{$item->phone}}</td>
@@ -47,6 +50,7 @@
                 @endforeach
             </tbody>
           </table>
+          {{  $student->links() }}
         <div>
         </div>
     </div>

@@ -17,12 +17,15 @@
         </ul>
       </div><br />
     @endif
-      <form method="get" action="{{ route('student.show', $student->id) }}">
+      <form method="get" action="{{ route('student.show', $student->id) }}" enctype="multipart/form-data">
           @csrf
+
           <div class="form-group">    
               <h1 for="firstName">{{ $student->firstName }} {{ $student->lastName }}</h1>
           </div>
-
+          <div class="form-group"> 
+          <img style="width: 200px;" src="{{ $student->image }}" alt="Image" >
+          </div>
           <div class="form-group">
             <label for="address">{{ $student->address }}</label>
         </div>

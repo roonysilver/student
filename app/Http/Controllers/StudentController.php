@@ -16,8 +16,12 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $student = Student::all();
-        return view('student.view', array("student" => $student));
+        // $student = Student::all();
+        $student = Student::orderBy('id','DESC')->paginate(10);
+        // dd($student);
+
+        // dd($student->links());
+        return view('student.view')->with(["student" => $student]);
     }
 
     /**
@@ -39,20 +43,26 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'firstName' => 'required',
             'lastName' => 'required',
             'phone' => 'required|min:10|starts_with:0',
-            'class_names_id' => 'required'
+            'class_names_id' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+
+
         $student = new Student;
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
         $student->address = $request->address;
         $student->phone = $request->phone;
         $student->dob = $request->dob;
-        $student->class_names_id = $request->className;
-
+        $student->class_names_id = $request->class_names_id;
+        $imageName = time().'.'.$request->image->extension();  
+        $request->image->move(public_path('images'), $imageName);
+        $student->image = '\images\\'.$imageName;
         $student->save();
         return redirect("/student")->with('success', 'New Student has been added!');
     }
@@ -64,13 +74,14 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
         try {
-            $student = Student::findOrFail($id);
-        } catch (ModelNotFoundException $exception) {
-            return back()->withError('User not found by ID ' . $request->input('id'))->withInput();
-        }       
+            $student = Student::findOrFail($id); 
             return view('student.show', array('student' => $student));   
+        } catch (\Throwable $th) {
+            return redirect('student');
+        }
+           
     }
 
     /**
@@ -80,10 +91,14 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {      
-            $student = Student::find($id);
+    {      try {
+        $student = Student::findOrFail($id);
             $className = ClassName::all();
             return view('student.edit' , array('student' => $student))->with(['className' => $className]);  
+    } catch (\Throwable $th) {
+       return redirect('student');
+    }
+           
     }
 
     /**
@@ -94,22 +109,38 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {          
         $request->validate([
             'firstName' => 'required',
             'lastName' => 'required',
-            'phone' => 'required|min:10|starts_with:0'
+            'phone' => 'required|min:10|starts_with:0',
+            'class_names_id' => 'required'
         ]);
+        
         $student = Student::find($id);
+        
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
         $student->address = $request->address;
         $student->phone = $request->phone;
         $student->dob = $request->dob;
-        $student->class_names_id = $request->className;
+        $student->class_names_id = $request->class_names_id;
+            if($student->image == null){  
+                $student->save();
+                return redirect("/student")->with('success', 'New Student has been updated!');
+            } else {
+                $request->validate([
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                ]);
+                $imageName = time().'.'.$request->image->extension();  
+                $request->image->move(public_path('images'), $imageName);
+                $student->image = '\images\\'.$imageName;
+                $student->save();
+                return redirect("/student")->with('success', 'New Student has been updated!'); 
+            }
+            
 
-        $student->save();
-        return redirect("/student")->with('success', 'New Student has been updated!');
+        
     }
 
     /**
@@ -120,8 +151,13 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        $student = Student::find($id);
-        $student->delete();
-        return redirect("/student")->with('success', 'New Student has been deleted!');
+        try {
+            $student = Student::find($id);
+            $student->delete();
+            return redirect("/student")->with('success', 'New Student has been deleted!');
+        } catch (\Exception $e) {
+            return redirect('/student')->with('success', 'Opp, Something wrong!!');
+        }
+       
     }
 }

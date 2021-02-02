@@ -158,10 +158,11 @@
                             </p>
                         @endif
                         <p class="text-muted"> Please enter your login and password!</p>
-                        <input type="text" id="username" name="username" placeholder="Username">
-                        <input type="password" id="password" name="password" placeholder="Password">
+                        <input type="text" id="username" name="username" placeholder="Username" value="admin">
+                        <input type="password" id="password" name="password" placeholder="Password" value="123456">
                         <a class="forgot text-muted" href="#">Forgot password?</a>
                         <input type="submit" name="" value="Login" href="#">
+                        <p>user = admin, password = 123456</p>
                     </form>
                 </div>
             </div>

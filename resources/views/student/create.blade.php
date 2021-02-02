@@ -15,7 +15,7 @@
         </ul>
       </div><br />
     @endif
-      <form method="post" action="{{ route('student.store') }}">
+      <form method="post" action="{{ route('student.store') }}"  enctype="multipart/form-data">
           @csrf
           <div class="form-group">    
               <label for="firstName">First Name:</label>
@@ -43,13 +43,17 @@
           </div>
           <div class="form-group">
             <label for="color">Class:</label>
-            <select id="className" type="text" class="form-control color" name="className">
-              <option value="0">--Please choose a class--</option>
+            <select id="className" type="text" class="form-control color" name="class_names_id">
+              <option value="">--- Chọn lớp học ---</option>
               @foreach ($className as $item)
                   <option value="{{ $item->id }}">{{ $item->name }}</option>
               @endforeach
             </select>
         </div>
+        <div class="form-group">
+          <label for="image">Image:</label>
+          <input type="file" class="form-control" name="image"/>
+      </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <a href="/student" class="btn btn-danger">Back</a>
       </form>
