@@ -27,18 +27,22 @@
           <img style="width: 200px;" src="{{ $student->image }}" alt="Image" >
           </div>
           <div class="form-group">
+            <label for="address">Address: </label>
             <label for="address">{{ $student->address }}</label>
         </div>
 
         <div class="form-group">
+          <label for="phone">Phone: </label>
             <label for="phone">{{ $student->phone }}</label>
         </div>
 
           <div class="form-group">
+            <label for="dob">date of birth: </label>      
               <label for="dob">"{{ $student->dob }}</label>
           </div>
-          
+    
           <div class="form-group">
+            <label for="class">Class: </label>
             <label for="color">{{ $student->class_names->name }}</label>
         </div>
           <a href="/student" class="btn btn-danger">Back</a>

@@ -61,7 +61,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                      <input type="file" class="form-control" name="image" />
+                      <input type="file" name="image" />
                   </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <a href="/student" class="btn btn-danger">Back</a>

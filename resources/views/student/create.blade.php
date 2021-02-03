@@ -51,8 +51,9 @@
             </select>
         </div>
         <div class="form-group">
-          <label for="image">Image:</label>
-          <input type="file" class="form-control" name="image"/>
+          <label for="image">Image:</label> 
+          <br>
+          <input type="file" name="image"/>
       </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <a href="/student" class="btn btn-danger">Back</a>

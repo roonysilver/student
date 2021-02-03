@@ -141,7 +141,6 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <div class="card">
                     <form class="box" action="/login" method="POST">
                         @csrf
                         <h1>Login</h1>
@@ -164,7 +163,6 @@
                         <input type="submit" name="" value="Login" href="#">
                         <p>user = admin, password = 123456</p>
                     </form>
-                </div>
             </div>
         </div>
     </div>

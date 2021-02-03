@@ -14,7 +14,7 @@ class Student extends Model
      * @var array
      */
 
-    protected $fillable = ['firstName', 'lastName', 'address','phone','dob','image'];
+    protected $fillable = ['firstName', 'lastName', 'address','phone','dob','image','deleted'];
 
     public function class_names() {
         return $this->belongsTo('App\Models\ClassName');

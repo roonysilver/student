@@ -23,7 +23,7 @@ class UserController extends Controller
         if(Auth::attempt($credenticals)) {
             return redirect('/student');
         } else {
-            return redirect('/login')->with('notice', 'sai tên đăng nhập hoặc mất khẩu');
+            return redirect('/login')->with('notice', 'wrong username or password');
         }
     }
 

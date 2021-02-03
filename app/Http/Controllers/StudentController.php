@@ -17,7 +17,7 @@ class StudentController extends Controller
     public function index()
     {
         // $student = Student::all();
-        $student = Student::orderBy('id','DESC')->paginate(10);
+        $student = Student::where('deleted', 0)->orderBy('id','DESC')->paginate(10);
         // dd($student);
 
         // dd($student->links());
@@ -116,9 +116,8 @@ class StudentController extends Controller
             'phone' => 'required|min:10|starts_with:0',
             'class_names_id' => 'required'
         ]);
-        
-        $student = Student::find($id);
-        
+        try {
+            $student = Student::find($id);
         $student->firstName = $request->firstName;
         $student->lastName = $request->lastName;
         $student->address = $request->address;
@@ -138,6 +137,9 @@ class StudentController extends Controller
                 $student->update();
                 return redirect("/student")->with('success', 'New Student has been updated!'); 
             }                  
+        } catch (\Throwable $th) {
+            return redirect('/student');
+        }       
     }
 
     /**
@@ -150,7 +152,8 @@ class StudentController extends Controller
     {
         try {
             $student = Student::find($id);
-            $student->delete();
+            $student->deleted = 1;
+            $student->update();
             return redirect("/student")->with('success', 'New Student has been deleted!');
         } catch (\Exception $e) {
             return redirect('/student')->with('success', 'Opp, Something wrong!!');
