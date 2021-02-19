@@ -10,7 +10,7 @@ use App\User;
 class UserController extends Controller
 {
     public function __construct() {
-        @session_start();
+@session_start();
     }
 
     public function postlogin(Request $request) {
@@ -33,13 +33,13 @@ class UserController extends Controller
       if(Auth::check()){
         $_SESSION['admin'] = Auth::user()->name;
         return view('student.view');
-      }  
-      return redirect("/login")->with('notice', 'Opps! You do not have access');
+      } else {  return redirect("/login")->with('errors', 'Opps! You do not have access');}
+    
     }
 
     public function logout(){
         Session::flush();
         Auth::logout();
-        return Redirect('/login');
+        return Redirect('/login')->with('notice', 'logout successed!!');
     }
 }
